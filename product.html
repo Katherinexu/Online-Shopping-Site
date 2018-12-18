@@ -1,0 +1,88 @@
+---
+layout: default
+title: Product
+---
+
+<div class="row" style="margin-left: 20px">
+    <div class="col-3">
+        <ul id="list" class="sticky-top">
+        </ul>
+    </div>
+    <div class="col-9" >
+        <button type="button" class="btn btn-outline-primary">Category</button><button type="button" class="btn btn-outline-primary">More
+            Link</button>
+        <div class="row" id="cardschildren">
+            <div class="card col-md-3 d-none" style="margin-top: 10px" id="card">
+                <img class="card-img-top" src="https://kangnwh.github.io/frontend-demo/w4demo/assets/skirt.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Dapibus ac facilisis in</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $.ajax('https://kangnwh.github.io/frontend-demo/w4demo/cloth-product-list.json', {
+        method: 'GET',
+        data: null,
+        success: function (creatingcards) {
+
+            for (var i = 0; i < creatingcards.items.length; i++) {
+                var product = document.querySelector("#card").cloneNode(true);
+                product.classList.remove("d-none");
+                product.querySelector("img").src = creatingcards.items[i].img;
+                product.querySelector("h5").textContent = creatingcards.items[i].name;
+                product.querySelector("p").textContent = creatingcards.items[i].desc;
+                product.querySelector("li").textContent = creatingcards.items[i].price;
+                document.querySelector("#cardschildren").appendChild(product)
+            }
+
+        }
+    }
+
+    )
+
+</script>
+
+<script>
+
+    $.ajax('https://kangnwh.github.io/frontend-demo/w4demo/json-side-data-remote.json', {
+        method: 'GET',
+        data: null,
+        success: function (datas) {
+            //外面的循环
+            for (var x = 0; x < datas.navs.length; x++) {
+                var element = document.createElement("li");
+                element.textContent = datas.navs[x].category;
+
+                document.querySelector("#list").appendChild(element);
+
+                var leveltwo = document.createElement("ul");
+                element.appendChild(leveltwo);
+                //开始里面的循环
+                for (var i = 0; i < datas.navs[x].children.length; i++) {
+
+                    var levelthree = document.createElement("li");
+                    levelthree.textContent = datas.navs[x].children[i].name;
+                    leveltwo.appendChild(levelthree);
+
+                }
+
+            }
+
+        }
+    }
+    )
+
+</script>
